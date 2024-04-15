@@ -1,0 +1,6 @@
+DELIMITER //
+CREATE PROCEDURE reporte1()
+BEGIN
+    SELECT * FROM farmacia;
+END //
+DELIMITER ;
