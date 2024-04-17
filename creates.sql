@@ -1,6 +1,6 @@
 CREATE TABLE LUGAR(
     id INT  AUTO_INCREMENT NOT NULL,
-    nombre VARCHAR(20)NOT NULL,
+    nombre VARCHAR(50)NOT NULL,
     tipo VARCHAR(20) NOT NULL,
     fk_tipo INT,
     CONSTRAINT lugar_pk PRIMARY KEY(id),
@@ -170,10 +170,6 @@ CREATE TABLE HIST_PRECIO_VENTA(
     CONSTRAINT td_pv_fk FOREIGN KEY(fk_hist_td) REFERENCES HIST_TASA_DOLAR(id_td)
 );
 
-
-****************
-
---LUGAR  35 inserts
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) VALUES('Venezuela','país',null);
 INSERT INTO LUGAR(nombre,tipo, fk_tipo) SELECT 'Distrito Capital', 'estado', id FROM LUGAR WHERE tipo='país' AND nombre='Venezuela';
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) SELECT 'Miranda','estado',id from LUGAR where tipo='país' and nombre='Venezuela';
@@ -210,7 +206,7 @@ INSERT INTO LUGAR(nombre,tipo,fk_tipo) SELECT 'Chacao','parroquia',id from LUGAR
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) SELECT 'Leoncio Martínez','parroquia',id from LUGAR where tipo='municipio' and nombre='Sucre';
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) SELECT 'Santa Rosalía de Palermo','parroquia',id from LUGAR where tipo='municipio' and nombre='El Hatillo';
 
---CLIENTE 50 inserts
+
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(9987456,'Maria','Garcia','F',(select id from LUGAR where tipo='parroquia' and nombre='Santa Rosalía de Palermo'));
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(20014567,'Maria','Collantes','F',(select id from LUGAR where tipo='parroquia' and nombre='Leoncio Martínez'));
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(10234567,'Hilaria','Alvarado','F',(select id from LUGAR where tipo='parroquia' and nombre='Chacao'));
@@ -262,7 +258,6 @@ INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(2
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(23645689,'Juan','Guzman','M',(select id from LUGAR where tipo='parroquia' and nombre='23 de enero'));
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(24112356,'Julio','Coiran','M',(select id from LUGAR where tipo='parroquia' and nombre='Santa Rosalía'));
 
---EMPLEADO 50 inserts
 INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(18485412,'Ronald','Castro','M','1988-01-02','rcastro97@gmail.com',4139018926,(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
 INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15200135,'Jorge','Ral','M','1980-05-10','raljorge2014@gmail.com',4120278601,(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
 INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15040464,'Michael','Rivas','M','1981-14-07','michaelrivasr@gmail.com',4129020048,(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
