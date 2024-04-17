@@ -11,11 +11,11 @@ CREATE TABLE CLIENTE(
     cedula_cli INT UNIQUE,
     nombre_cli VARCHAR(20) NOT NULL,
     apellido_cli VARCHAR(20) NOT NULL,
-    genero CHAR NOT NULL,
+    genero char NOT NULL,
     fk_lugar INT,
     CONSTRAINT cliente_pk PRIMARY KEY(cedula_cli),
-    CONSTRAINT lp_fk FOREIGN KEY(fk_lugar) REFERENCES LUGAR(id),
-    CONSTRAINT ch_genero CHECK(genero IN('M','F'))
+    CONSTRAINT lp_fk_cliente FOREIGN KEY(fk_lugar) REFERENCES LUGAR(id),
+    CONSTRAINT check_genero_cliente CHECK (genero = 'M' or genero = 'F')
 );
 
 CREATE TABLE EMPLEADO(
@@ -29,7 +29,7 @@ CREATE TABLE EMPLEADO(
     fk_lugar INT,
     CONSTRAINT empleado_pk PRIMARY KEY(cedula_emp),
     CONSTRAINT lp_fk FOREIGN KEY(fk_lugar) REFERENCES LUGAR(id),
-    CONSTRAINT ch_emp_genero CHECK(genero IN('M','F'))
+    CONSTRAINT ch_emp_genero CHECK(genero_emp IN('M','F'))
 );
 
 CREATE TABLE FACTURA(
@@ -130,6 +130,7 @@ CREATE TABLE DETALLE_FACTURA(
 
 CREATE TABLE PRODUCTO(
     id_producto INT AUTO_INCREMENT,
+    imagen_p longblob NOT NULL,
     nombre_p VARCHAR(50) NOT NULL,
     descripcion_p VARCHAR(50) NOT NULL,
     fk_categoria INT,

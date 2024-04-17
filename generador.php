@@ -176,6 +176,7 @@
                 </tr>
             </tbody>
         </table>
+        <img src="view.php">
     </div>
 
 
