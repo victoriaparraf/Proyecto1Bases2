@@ -375,3 +375,4 @@ INSERT INTO CATEGORIA(nombre_cat) VALUES('Dietética');
 INSERT INTO CATEGORIA(nombre_cat) VALUES('Cosmética');
 INSERT INTO CATEGORIA(nombre_cat) VALUES('Infantil');
 INSERT INTO CATEGORIA(nombre_cat) VALUES('Ortopedia');
+
