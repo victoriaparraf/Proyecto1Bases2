@@ -365,3 +365,13 @@ INSERT INTO CONTRATO_EMPLEADO(fecha_ingreso,fecha_egreso,fk_emp) VALUES('2023-6-
 INSERT INTO CONTRATO_EMPLEADO(fecha_ingreso,fecha_egreso,fk_emp) VALUES('2022-2-16',null,(select cedula_emp from EMPLEADO where cedula='29861430'));
 INSERT INTO CONTRATO_EMPLEADO(fecha_ingreso,fecha_egreso,fk_emp) VALUES('2024-1-18',null,(select cedula_emp from EMPLEADO where cedula='27741713'));
 INSERT INTO CONTRATO_EMPLEADO(fecha_ingreso,fecha_egreso,fk_emp) VALUES('2022-9-14',null,(select cedula_emp from EMPLEADO where cedula='28308698'));
+
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Medicamento');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Cuidado personal');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Suplementos y Vitaminas');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Equipos y Dispositivos Médicos');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Botiquín');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Dietética');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Cosmética');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Infantil');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Ortopedia');
