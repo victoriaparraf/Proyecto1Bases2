@@ -1,6 +1,6 @@
 CREATE TABLE LUGAR(
     id INT  AUTO_INCREMENT NOT NULL,
-    nombre VARCHAR(50)NOT NULL,
+    nombre VARCHAR(20)NOT NULL,
     tipo VARCHAR(20) NOT NULL,
     fk_tipo INT,
     CONSTRAINT lugar_pk PRIMARY KEY(id),
@@ -11,11 +11,10 @@ CREATE TABLE CLIENTE(
     cedula_cli INT UNIQUE,
     nombre_cli VARCHAR(20) NOT NULL,
     apellido_cli VARCHAR(20) NOT NULL,
-    genero char NOT NULL,
+    genero CHAR NOT NULL,
     fk_lugar INT,
     CONSTRAINT cliente_pk PRIMARY KEY(cedula_cli),
-    CONSTRAINT lp_fk_cliente FOREIGN KEY(fk_lugar) REFERENCES LUGAR(id),
-    CONSTRAINT check_genero_cliente CHECK (genero = 'M' or genero = 'F')
+    CONSTRAINT lp_fk_cliente FOREIGN KEY(fk_lugar) REFERENCES LUGAR(id)
 );
 
 CREATE TABLE EMPLEADO(
@@ -25,11 +24,10 @@ CREATE TABLE EMPLEADO(
     fecha_nac DATE NOT NULL,
     genero_emp CHAR NOT NULL,
     correo VARCHAR(50) NOT NULL,
-    telefono INT NOT NULL,
+    telefono VARCHAR(30) NOT NULL,
     fk_lugar INT,
     CONSTRAINT empleado_pk PRIMARY KEY(cedula_emp),
-    CONSTRAINT lp_fk FOREIGN KEY(fk_lugar) REFERENCES LUGAR(id),
-    CONSTRAINT ch_emp_genero CHECK(genero_emp IN('M','F'))
+    CONSTRAINT lp_fk FOREIGN KEY(fk_lugar) REFERENCES LUGAR(id)
 );
 
 CREATE TABLE FACTURA(
@@ -71,7 +69,7 @@ CREATE TABLE C_H(
 CREATE TABLE CARGO(
     id_cargo INT AUTO_INCREMENT,
     nombre_cargo VARCHAR(50) NOT NULL,
-    sueldo_diario INT NOT NULL,
+    sueldo_hora INT NOT NULL,
     CONSTRAINT cargo_pk PRIMARY KEY(id_cargo)
 );
 
@@ -108,12 +106,24 @@ CREATE TABLE ENTRADA_SALIDA(
     CONSTRAINT esc_fk FOREIGN KEY(fk_contrato) REFERENCES CONTRATO_EMPLEADO(id_contrato)
 );
 
+CREATE TABLE PRODUCTO(
+    id_producto INT AUTO_INCREMENT,
+    imagen_p longblob NOT NULL,
+    nombre_p VARCHAR(50) NOT NULL,
+    descripcion_p VARCHAR(500) NOT NULL,
+    fk_categoria INT,
+    CONSTRAINT producto_pk PRIMARY KEY(id_producto),
+    CONSTRAINT cat_prod_fk FOREIGN KEY(fk_categoria) REFERENCES CATEGORIA(id_categoria)
+);
+
 CREATE TABLE INVENTARIO(
     id_inventario INT AUTO_INCREMENT,
     cantidad_disp INT NOT NULL,
     fk_farmacia INT NOT NULL,
+    producto_fk INT NOT NULL,
     CONSTRAINT inventario_pk PRIMARY KEY(id_inventario),
     CONSTRAINT far_inv_fk FOREIGN KEY(fk_farmacia) REFERENCES FARMACIA(id_farmacia)
+    CONSTRAINT pro_inv_fk FOREIGN KEY(producto_fk) REFERENCES PRODUCTO(id_producto)
 );
 
 CREATE TABLE DETALLE_FACTURA(
@@ -126,16 +136,6 @@ CREATE TABLE DETALLE_FACTURA(
     CONSTRAINT det_fact_pk PRIMARY KEY(id_det_fact),
     CONSTRAINT detfact_fact_fk FOREIGN KEY(fk_factura) REFERENCES FACTURA(id_factura),
     CONSTRAINT detfact_inv_fk FOREIGN KEY(fk_inventario) REFERENCES INVENTARIO(id_inventario)
-);
-
-CREATE TABLE PRODUCTO(
-    id_producto INT AUTO_INCREMENT,
-    imagen_p longblob NOT NULL,
-    nombre_p VARCHAR(50) NOT NULL,
-    descripcion_p VARCHAR(50) NOT NULL,
-    fk_categoria INT,
-    CONSTRAINT producto_pk PRIMARY KEY(id_producto),
-    CONSTRAINT cat_prod_fk FOREIGN KEY(fk_categoria) REFERENCES CATEGORIA(id_categoria)
 );
 
 CREATE TABLE HIST_PRECIO_COMPRA(
@@ -410,12 +410,12 @@ INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('21:15:00', '05:15:00');
 INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('22:15:00', '06:15:00');
 INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('23:15:00', '07:15:00');
 
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Medicamento');
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Cuidado personal');
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Suplementos y Vitaminas');
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Equipos y Dispositivos Médicos');
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Botiquín');
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Dietética');
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Cosmética');
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Infantil');
-INSERT INTO CATEGORIA(nombre_cat) VALUES('Ortopedia');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Medicamento');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Cuidado personal');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Suplementos y Vitaminas');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Equipos y Dispositivos Médicos');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Botiquín');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Dietética');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Cosmética');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Infantil');
+INSERT INTO CATEGORIA(nombre_categoria) VALUES('Ortopedia');

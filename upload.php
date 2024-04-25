@@ -13,7 +13,7 @@ if (isset($_POST["submit"])) {
         $stmt->bindParam(1, $imgContent, PDO::PARAM_STR);
         $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
         $stmt->bindParam(3, $descripcion, PDO::PARAM_STR);
-        $stmt->bindParam(3, $_POST['categoria'], PDO::PARAM_STR);
+        $stmt->bindParam(4, $_POST['categoria'], PDO::PARAM_STR);
         $stmt->execute();
 
         echo "File uploaded successfully.";
@@ -22,12 +22,4 @@ if (isset($_POST["submit"])) {
         echo "Please select an image file to upload.";
     }
 }
-$id = 1;
-$query = "select * from producto where order by id_producto DESC";
-$stmt = $sql->prepare($query);
-$stmt->bindParam(1, $id, PDO::PARAM_STR);
-$stmt->execute();
-$row = $stmt->fetch();
-
-
-echo '<img src="data:image/jpeg;base64,' . base64_encode($row['imagen_p']) . '">';
+header("Location: prueba.php");
