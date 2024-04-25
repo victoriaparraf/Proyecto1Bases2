@@ -410,4 +410,12 @@ INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('21:15:00', '05:15:00');
 INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('22:15:00', '06:15:00');
 INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('23:15:00', '07:15:00');
 
-
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Medicamento');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Cuidado personal');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Suplementos y Vitaminas');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Equipos y Dispositivos Médicos');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Botiquín');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Dietética');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Cosmética');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Infantil');
+INSERT INTO CATEGORIA(nombre_cat) VALUES('Ortopedia');
