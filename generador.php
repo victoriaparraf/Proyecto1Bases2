@@ -8,7 +8,6 @@
 
 <head>
     <title>Reportes</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -123,10 +122,11 @@
                 <tr class="espacio"></tr>
                 <tr class="linea">
                     <td id="fila">
-                        Reporte #3: Horas cumplidas por los empleados dado un mes especifico (Selecciona un mes)
+                        Reporte #3: Horas cumplidas por los empleados dado un mes especifico (Selecciona una fecha)\n
+                        <input id="reporte3" type="text">
                     </td>
                     <td>
-                        <button class="button" onclick="popupwindow('generar3.php','popup',1000,800);" id="boton">Generar</button>
+                        <button class="button" onclick="generar3()" id="boton">Generar</button>
                     </td>
                 </tr>
                 <tr class="espacio"></tr>
@@ -159,7 +159,7 @@
                 <tr class="espacio"></tr>
                 <tr class="linea">
                     <td id="fila">
-                        Reporte #7: 
+                        Reporte #7: Categorias mas vendidas por cada mes del año (Selecciona un año)
                     </td>
                     <td>
                         <button class="button" onclick="popupwindow('generar7.php','popup',1000,800);" id="boton">Generar</button>
@@ -176,7 +176,6 @@
                 </tr>
             </tbody>
         </table>
-        <img src="view.php">
     </div>
 
 
@@ -189,6 +188,11 @@
         var left = (screen.width / 2) - (w / 2);
         var top = (screen.height / 2) - (h / 2);
         return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    }
+
+    function generar3(){
+        let fecha = document.getElementById('reporte3').value;
+        popupwindow('generar3.php?fecha='+fecha,'popup',1000,800);
     }
 </script>
 
