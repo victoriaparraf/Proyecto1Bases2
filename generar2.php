@@ -40,7 +40,7 @@ foreach ($rows as $row) {
   $consulta ='
     <tr>
         <th scope="row" style="vertical-align: middle;">' . $i . '</th>
-        <td><img src="data:image/jpeg;base64,' . base64_encode($row['imagen_p']) . '" width="45px" height="45px"></td>
+        <td style="vertical-align: middle;"><img src="data:image/jpeg;base64,' . base64_encode($row['imagen_p']) . '" width="45px" height="45px"></td>
         <td style="vertical-align: middle;">' . $row['nombre_p'] . '</td>
         <td style="vertical-align: middle;">' . $row['descripcion_p'] . '</td>
     </tr>

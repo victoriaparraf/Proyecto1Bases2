@@ -1,6 +1,6 @@
 CREATE TABLE LUGAR(
     id INT  AUTO_INCREMENT NOT NULL,
-    nombre VARCHAR(20)NOT NULL,
+    nombre VARCHAR(50)NOT NULL,
     tipo VARCHAR(20) NOT NULL,
     fk_tipo INT,
     CONSTRAINT lugar_pk PRIMARY KEY(id),
