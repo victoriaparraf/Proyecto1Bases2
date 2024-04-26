@@ -14,17 +14,19 @@ foreach ($rows as $row) {
   $consulta = $consulta . '
     <tr>
         <th scope="row">' . $i . '</th>
-        <td>' . $row['id_farmacia'] . '</td>
-        <td>' . $row['capacidad'] . '</td>
+        <td>' . $row['cedula_emp'] . '</td>
+        <td>' . $row['nombre_emp'] . '</td>
+        <td>' . $row['apellido_emp'] . '</td>
+        <td>' . $row['Horas_Trabajadas'] . '</td>
     </tr>
     ';
   $i++;
 }
-
+$logo = file_get_contents('Assets/logo.jpg');
 $html = '<nav>
-<img src="Assets/logo.png" width="170" height="90" style="margin: 2% 30% 2% 2%">
+<img src="data:image/jpg;base64,' . base64_encode($logo) . '" width="90" height="90" style="margin: 2% 30% 2% 2%">
 <h4 style="text-align: center;"> Reporte #1</h4>
-<h5 style="text-align: center;"> Nombre de superhéroe o supervillano que poseen poderes artificiales y que han sido líderes </h5>
+<h5 style="text-align: center;"> Reporte de empleados por horas trabajadas </h5>
 </nav>
 <body>
 <div style="margin: 3%">
@@ -32,8 +34,10 @@ $html = '<nav>
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">ID Farmacia</th>
-            <th scope="col">Capacidad</th>
+            <th scope="col">Cedula</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Horas Trabajadas</th>
           </tr>
         </thead>
         <tbody>

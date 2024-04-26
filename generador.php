@@ -196,7 +196,7 @@
                         </select>
                     </td>
                     <td>
-                        <button class="button" onclick="popupwindow('generar4.php','popup',1000,800);" id="boton">Generar</button>
+                        <button class="button" onclick="generar4()" id="boton">Generar</button>
                     </td>
                 </tr>
                 <tr class="espacio"></tr>
@@ -266,16 +266,19 @@
         let ano = document.getElementById('anoR3').value;
         popupwindow('generar3.php?mes=' + mes + '&ano=' + ano, 'popup', 1000, 800);
     }
-
+    
     function generar4() {
-
+        let cat = document.getElementById('catR4').value;
+        popupwindow('generar4.php?cat=' + cat, 'popup', 1000, 800);
     }
 
     function generar7() {
-
+        let cat = document.getElementById('catR4').value;
+        popupwindow('generar7.php?cat=' + cat, 'popup', 1000, 800);
     }
 
     function generar8() {
-
+        let cat = document.getElementById('catR4').value;
+        popupwindow('generar8.php?cat=' + cat, 'popup', 1000, 800);
     }
 </script>
