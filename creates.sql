@@ -69,7 +69,7 @@ CREATE TABLE C_H(
 CREATE TABLE CARGO(
     id_cargo INT AUTO_INCREMENT,
     nombre_cargo VARCHAR(50) NOT NULL,
-    sueldo_hora INT NOT NULL,
+    sueldo_hora DECIMAL NOT NULL,
     CONSTRAINT cargo_pk PRIMARY KEY(id_cargo)
 );
 
@@ -83,7 +83,7 @@ CREATE TABLE C_C(
     id_cargo_cont INT AUTO_INCREMENT,
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
-    sueldo INT NOT NULL,
+    sueldo DECIMAL NOT NULL,
     fk_cargo INT NOT NULL,
     cont_fk INT NOT NULL,
     CONSTRAINT cc_pk PRIMARY KEY(id_cargo_cont),
@@ -122,14 +122,14 @@ CREATE TABLE INVENTARIO(
     fk_farmacia INT NOT NULL,
     producto_fk INT NOT NULL,
     CONSTRAINT inventario_pk PRIMARY KEY(id_inventario),
-    CONSTRAINT far_inv_fk FOREIGN KEY(fk_farmacia) REFERENCES FARMACIA(id_farmacia)
+    CONSTRAINT far_inv_fk FOREIGN KEY(fk_farmacia) REFERENCES FARMACIA(id_farmacia),
     CONSTRAINT pro_inv_fk FOREIGN KEY(producto_fk) REFERENCES PRODUCTO(id_producto)
 );
 
 CREATE TABLE DETALLE_FACTURA(
     id_det_fact INT AUTO_INCREMENT,
     cantidad_prod INT NOT NULL,
-    precio_unitario INT NOT NULL,
+    precio_unitario DECIMAL NOT NULL,
     descuento INT,
     fk_factura INT  NOT NULL,
     fk_inventario INT NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE DETALLE_FACTURA(
 
 CREATE TABLE HIST_PRECIO_COMPRA(
     id_pc INT AUTO_INCREMENT,
-    valor_pc INT NOT NULL,
+    valor_pc DECIMAL NOT NULL,
     fecha_inicio_pc DATE NOT NULL,
     fecha_fin_pc DATE,
     fk_producto INT,
@@ -150,7 +150,7 @@ CREATE TABLE HIST_PRECIO_COMPRA(
 
 CREATE TABLE HIST_TASA_DOLAR(
     id_td INT AUTO_INCREMENT,
-    valor_td INT NOT NULL,
+    valor_td DECIMAL NOT NULL,
     fecha_inicio_td DATE NOT NULL,
     fecha_fin_td DATE,
     fk_hist_pc INT,
@@ -160,7 +160,7 @@ CREATE TABLE HIST_TASA_DOLAR(
 
 CREATE TABLE HIST_PRECIO_VENTA(
     id_pv INT AUTO_INCREMENT,
-    valor_pv INT NOT NULL,
+    valor_pv DECIMAL NOT NULL,
     fecha_inicio_pv DATE NOT NULL,
     fecha_fin_pv DATE,
     fk_inv INT,
@@ -169,7 +169,7 @@ CREATE TABLE HIST_PRECIO_VENTA(
     CONSTRAINT pv_inv_fk FOREIGN KEY(fk_inv) REFERENCES INVENTARIO(id_inventario),
     CONSTRAINT td_pv_fk FOREIGN KEY(fk_hist_td) REFERENCES HIST_TASA_DOLAR(id_td)
 );
-
+--LUGAR  35 inserts
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) VALUES('Venezuela','país',null);
 INSERT INTO LUGAR(nombre,tipo, fk_tipo) SELECT 'Distrito Capital', 'estado', id FROM LUGAR WHERE tipo='país' AND nombre='Venezuela';
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) SELECT 'Miranda','estado',id from LUGAR where tipo='país' and nombre='Venezuela';
@@ -206,7 +206,7 @@ INSERT INTO LUGAR(nombre,tipo,fk_tipo) SELECT 'Chacao','parroquia',id from LUGAR
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) SELECT 'Leoncio Martínez','parroquia',id from LUGAR where tipo='municipio' and nombre='Sucre';
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) SELECT 'Santa Rosalía de Palermo','parroquia',id from LUGAR where tipo='municipio' and nombre='El Hatillo';
 
-
+--CLIENTE 50 inserts
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(9987456,'Maria','Garcia','F',(select id from LUGAR where tipo='parroquia' and nombre='Santa Rosalía de Palermo'));
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(20014567,'Maria','Collantes','F',(select id from LUGAR where tipo='parroquia' and nombre='Leoncio Martínez'));
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(10234567,'Hilaria','Alvarado','F',(select id from LUGAR where tipo='parroquia' and nombre='Chacao'));
@@ -258,56 +258,57 @@ INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(2
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(23645689,'Juan','Guzman','M',(select id from LUGAR where tipo='parroquia' and nombre='23 de enero'));
 INSERT INTO CLIENTE(cedula_cli,nombre_cli,apellido_cli,genero,fk_lugar) VALUES(24112356,'Julio','Coiran','M',(select id from LUGAR where tipo='parroquia' and nombre='Santa Rosalía'));
 
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(18485412,'Ronald','Castro','M','1988-01-02','rcastro97@gmail.com',4139018926,(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15200135,'Jorge','Ral','M','1980-05-10','raljorge2014@gmail.com',4120278601,(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15040464,'Michael','Rivas','M','1981-14-07','michaelrivasr@gmail.com',4129020048,(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(14021832,'Hector','Azuaje','M','1984-08-17','hectormazuaje@gmail.com',4241298491,(select id from LUGAR where tipo='parroquia' and nombre='Santa Rosalía'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16382963,'Juan','Parra','M','1980-01-02','rcastro97@gmail.com',4127768861,(select id from LUGAR where tipo='parroquia' and nombre='El Recreo'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17719600,'Miguel','Caballero','M','1986-07-16','miqueleknight@gmail.com',4142027298,(select id from LUGAR where tipo='parroquia' and nombre='El Recreo'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16682634,'Jesús','Fajardo','M','1986-05-14','jesusfajardo0305@gmail.com',4125603887,(select id from LUGAR where tipo='parroquia' and nombre='Sucre'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15613660,'Horacio','Tirado','M','1986-09-02','horacioot09@gmail.com',4125853863,(select id from LUGAR where tipo='parroquia' and nombre='Altagracia'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17116471,'Carlos','Herrera','M','1983-12-08','herreracarloss@gmail.com',42441521744,(select id from LUGAR where tipo='parroquia' and nombre='Baruta'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15506254,'Mendelson','Cedeño','M','1986-04-23','mendelsonced@gmail.com',4242707166,(select id from LUGAR where tipo='parroquia' and nombre='La Pastora'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15337842,'Oscar','Villanueva','M','1988-06-03','ovillanueva12@gmail.com',4168950758,(select id from LUGAR where tipo='parroquia' and nombre='San Agustín'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(19022950,'Carlos','Macuma','M','1989-01-20','carlosisaias89@gmail.com',4248432251,(select id from LUGAR where tipo='parroquia' and nombre='El Cafetal'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24723408,'Eduardo','Bustamente','M','1994-02-24','bustamanteman24@gmail.com',4125538489,(select id from LUGAR where tipo='parroquia' and nombre='Las Minas'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(30115310,'Daniel','Trujillo','M','1990-07-27','dannytrujillo89@gmail.com',4241556055,(select id from LUGAR where tipo='parroquia' and nombre='Sucre'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24210444,'Angel','Velasquez','M','2004-09-13','angelvelasquez13@gmail.com',4129846555,(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(29861711,'Romny','Malavé','M','2003-09-02','malaverommaan@gmail.com',4123750396,(select id from LUGAR where tipo='parroquia' and nombre='Macarao'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(29861430,'Oscar','Castellano','M','1988-01-02','oscarcatellano@gmail.com',4241882488,(select id from LUGAR where tipo='parroquia' and nombre='Caricuao'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(21262403,'Rafael','Villero','M','1995-12-14','rafaelvillero@gmail.com',4189978190,(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24210484,'Erick','Berroteran','M','1994-08-11','berroteranerick@gmail.com',4242013814,(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(25755819,'Luis','Amaya','M','1993-11-25','luismtamayaya@gmail.com',4126898532,(select id from LUGAR where tipo='parroquia' and nombre='San José'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(19335806,'Cristian','Celis','M','1992-04-01','chriscelis9292@gmail.com',4241376181,(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(27741713,'Cesar','Leon','M','2000-02-18','caleon98@gmail.com',4129122825,(select id from LUGAR where tipo='parroquia' and nombre='Caricuao'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(28308698,'Victor','Blanco','M','2001-06-14','victorwhite@gmail.com',4242333582,(select id from LUGAR where tipo='parroquia' and nombre='Sucre'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(29987210,'Jose','Duran','M','2002-06-13','joseduran54@gmail.com',4241909460,(select id from LUGAR where tipo='parroquia' and nombre='Leoncio Martínez'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(21131494,'Samuel','Rodriguez','M','1988-07-07','samuelrod07@gmail.com',4141368121,(select id from LUGAR where tipo='parroquia' and nombre='Altagracia'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16411632,'Maria','De Simone','F','1984-06-15','mariasimone@gmail.com',4120194539,(select id from LUGAR where tipo='parroquia' and nombre='San Pedro'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17977425,'Karelis','Villalta','F','1988-03-24','krelisvilla01@gmail.com',424269302,(select id from LUGAR where tipo='parroquia' and nombre='San Juan'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(13748084,'Ana','Peña','F','1979-11-07','anitapeña@gmail.com',4141188242,(select id from LUGAR where tipo='parroquia' and nombre='23 de enero'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(20793899,'Florangel','Amado','F','1988-02-26','floramado2000@gmail.com',4242897522,(select id from LUGAR where tipo='parroquia' and nombre='Sucre'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15574606,'Veronica','De Simone','F','1982-10-01','veronisimonevs@gmail.com',4128246980,(select id from LUGAR where tipo='parroquia' and nombre='San Pedro'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17641976,'Vanessa','Capote','F','1988-03-26','vanessacapote26@gmail.com',4127316217,(select id from LUGAR where tipo='parroquia' and nombre='Chacao'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17642304,'Emily','Galicia','F','1987-10-21','emilygal87@gmail.com',4241336164,(select id from LUGAR where tipo='parroquia' and nombre='El Paraíso'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(13636795,'Francis','Domar','F','1981-06-08','franciscutedom@gmail.com',4123857397,(select id from LUGAR where tipo='parroquia' and nombre='Chacao'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15403505,'Elba','Perales','F','1981-04-11','danielperalese@gmail.com',4164284489,(select id from LUGAR where tipo='parroquia' and nombre='La Vega'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16556250,'Romina','Gandaraz','F','1983-01-17','romigandaraz17@gmail.com',4241557368,(select id from LUGAR where tipo='parroquia' and nombre='San Juan'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16413537,'Leidy','Sanchez','F','1985-08-01','leidysanchez24@gmail.com',4142780630,(select id from LUGAR where tipo='parroquia' and nombre='Baruta'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17148667,'Jessica','Cedeño','F','1987-09-15','jessyced2001@gmail.com',4241512576,(select id from LUGAR where tipo='parroquia' and nombre='Santa Teresa'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(18364270,'Grecia','Acosta','F','1986-11-20','greekacosta24@gmail.com',4141171212,(select id from LUGAR where tipo='parroquia' and nombre='23 de enero'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(19606815,'Arianna','Velasquez','F','1997-06-12','arisitavelasquez@gmail.com',4241539100,(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(28180142,'América','Castellano','F','2001-11-06','americancastellano@gmail.com',414089650,(select id from LUGAR where tipo='parroquia' and nombre='Caricuao'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(26647943,'Dubraska','Gonzalez','F','2000-03-21','gonzalesdubris@gmail.com',4269081330,(select id from LUGAR where tipo='parroquia' and nombre='San Juan'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(30720094,'Alejandra','Farias','F','2004-07-12','alejandrafarias33@gmail.com',4242195857,(select id from LUGAR where tipo='parroquia' and nombre='El Paraíso'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(27965641,'Krisdeilys','Oropeza','F','2002-04-22','krissyoropeza22@gmail.com',4241679160,(select id from LUGAR where tipo='parroquia' and nombre='La Pastora'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(27472755,'Yunaire','Ortega','F','1999-10-15','yuniortega1999@gmail.com',4141214539,(select id from LUGAR where tipo='parroquia' and nombre='San Bernardino'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24216176,'Dayana','Cordero','F','1996-05-09','dayaniscordero98@gmail.com',4242060839,(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24577571,'Klayramal','Alvarez','F','1994-06-25','klayraalvarez6@gmail.com',4128420769,(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24812956,'Cindy','Morales','F','1997-01-18','cindymm2020@gmail.com',4122081446,(select id from LUGAR where tipo='parroquia' and nombre='Santa Rosalía de Palermo'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(25234284,'Lineth','Zambrano','F','1997-08-12','linethlzambrano@gmail.com',4122839144,(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(26459925,'Maria','Anton','F','1998-04-02','antomaria2021@gmail.com',4249479789,(select id from LUGAR where tipo='parroquia' and nombre='El Recreo'));
-INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(30468132,'Adriana','Contreras','F','2004-09-07','adrianitacontreras@gmail.com',4241482458,(select id from LUGAR where tipo='parroquia' and nombre='Coche'));
+--EMPLEADO 50 inserts
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(18485412,'Ronald','Castro','M','1988-01-02','rcastro97@gmail.com','4139018926',(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15200135,'Jorge','Ral','M','1980-05-10','raljorge2014@gmail.com','4120278601',(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15040464,'Michael','Rivas','M','1981-14-07','michaelrivasr@gmail.com','4129020048',(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(14021832,'Hector','Azuaje','M','1984-08-17','hectormazuaje@gmail.com','4241298491',(select id from LUGAR where tipo='parroquia' and nombre='Santa Rosalía'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16382963,'Juan','Parra','M','1980-01-02','rcastro97@gmail.com','4127768861',(select id from LUGAR where tipo='parroquia' and nombre='El Recreo'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17719600,'Miguel','Caballero','M','1986-07-16','miqueleknight@gmail.com','4142027298',(select id from LUGAR where tipo='parroquia' and nombre='El Recreo'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16682634,'Jesús','Fajardo','M','1986-05-14','jesusfajardo0305@gmail.com','412560388',(select id from LUGAR where tipo='parroquia' and nombre='Sucre'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15613660,'Horacio','Tirado','M','1986-09-02','horacioot09@gmail.com','4125853863',(select id from LUGAR where tipo='parroquia' and nombre='Altagracia'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17116471,'Carlos','Herrera','M','1983-12-08','herreracarloss@gmail.com','42441521744',(select id from LUGAR where tipo='parroquia' and nombre='Baruta'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15506254,'Mendelson','Cedeño','M','1986-04-23','mendelsonced@gmail.com','4242707166',(select id from LUGAR where tipo='parroquia' and nombre='La Pastora'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15337842,'Oscar','Villanueva','M','1988-06-03','ovillanueva12@gmail.com','4168950758',(select id from LUGAR where tipo='parroquia' and nombre='San Agustín'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(19022950,'Carlos','Macuma','M','1989-01-20','carlosisaias89@gmail.com','4248432251',(select id from LUGAR where tipo='parroquia' and nombre='El Cafetal'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24723408,'Eduardo','Bustamente','M','1994-02-24','bustamanteman24@gmail.com','4125538489',(select id from LUGAR where tipo='parroquia' and nombre='Las Minas'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(30115310,'Daniel','Trujillo','M','1990-07-27','dannytrujillo89@gmail.com','4241556055',(select id from LUGAR where tipo='parroquia' and nombre='Sucre'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24210444,'Angel','Velasquez','M','2004-09-13','angelvelasquez13@gmail.com','4129846555',(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(29861711,'Romny','Malavé','M','2003-09-02','malaverommaan@gmail.com','4123750396',(select id from LUGAR where tipo='parroquia' and nombre='Macarao'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(29861430,'Oscar','Castellano','M','1988-01-02','oscarcatellano@gmail.com','4241882488',(select id from LUGAR where tipo='parroquia' and nombre='Caricuao'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(21262403,'Rafael','Villero','M','1995-12-14','rafaelvillero@gmail.com','4189978190',(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24210484,'Erick','Berroteran','M','1994-08-11','berroteranerick@gmail.com','4242013814',(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(25755819,'Luis','Amaya','M','1993-11-25','luismtamayaya@gmail.com','4126898532',(select id from LUGAR where tipo='parroquia' and nombre='San José'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(19335806,'Cristian','Celis','M','1992-04-01','chriscelis9292@gmail.com','4241376181',(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(27741713,'Cesar','Leon','M','2000-02-18','caleon98@gmail.com','4129122825',(select id from LUGAR where tipo='parroquia' and nombre='Caricuao'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(28308698,'Victor','Blanco','M','2001-06-14','victorwhite@gmail.com','4242333582',(select id from LUGAR where tipo='parroquia' and nombre='Sucre'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(29987210,'Jose','Duran','M','2002-06-13','joseduran54@gmail.com','4241909460',(select id from LUGAR where tipo='parroquia' and nombre='Leoncio Martínez'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(21131494,'Samuel','Rodriguez','M','1988-07-07','samuelrod07@gmail.com','4141368121',(select id from LUGAR where tipo='parroquia' and nombre='Altagracia'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16411632,'Maria','De Simone','F','1984-06-15','mariasimone@gmail.com','4120194539',(select id from LUGAR where tipo='parroquia' and nombre='San Pedro'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17977425,'Karelis','Villalta','F','1988-03-24','krelisvilla01@gmail.com','424269302',(select id from LUGAR where tipo='parroquia' and nombre='San Juan'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(13748084,'Ana','Peña','F','1979-11-07','anitapeña@gmail.com','4141188242',(select id from LUGAR where tipo='parroquia' and nombre='23 de enero'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(20793899,'Florangel','Amado','F','1988-02-26','floramado2000@gmail.com','4242897522',(select id from LUGAR where tipo='parroquia' and nombre='Sucre'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15574606,'Veronica','De Simone','F','1982-10-01','veronisimonevs@gmail.com','4128246980',(select id from LUGAR where tipo='parroquia' and nombre='San Pedro'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17641976,'Vanessa','Capote','F','1988-03-26','vanessacapote26@gmail.com','4127316217',(select id from LUGAR where tipo='parroquia' and nombre='Chacao'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17642304,'Emily','Galicia','F','1987-10-21','emilygal87@gmail.com','4241336164',(select id from LUGAR where tipo='parroquia' and nombre='El Paraíso'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(13636795,'Francis','Domar','F','1981-06-08','franciscutedom@gmail.com','4123857397',(select id from LUGAR where tipo='parroquia' and nombre='Chacao'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(15403505,'Elba','Perales','F','1981-04-11','danielperalese@gmail.com','4164284489',(select id from LUGAR where tipo='parroquia' and nombre='La Vega'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16556250,'Romina','Gandaraz','F','1983-01-17','romigandaraz17@gmail.com','4241557368',(select id from LUGAR where tipo='parroquia' and nombre='San Juan'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(16413537,'Leidy','Sanchez','F','1985-08-01','leidysanchez24@gmail.com','4142780630',(select id from LUGAR where tipo='parroquia' and nombre='Baruta'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(17148667,'Jessica','Cedeño','F','1987-09-15','jessyced2001@gmail.com','4241512576',(select id from LUGAR where tipo='parroquia' and nombre='Santa Teresa'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(18364270,'Grecia','Acosta','F','1986-11-20','greekacosta24@gmail.com','4141171212',(select id from LUGAR where tipo='parroquia' and nombre='23 de enero'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(19606815,'Arianna','Velasquez','F','1997-06-12','arisitavelasquez@gmail.com','4241539100',(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(28180142,'América','Castellano','F','2001-11-06','americancastellano@gmail.com','414089650',(select id from LUGAR where tipo='parroquia' and nombre='Caricuao'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(26647943,'Dubraska','Gonzalez','F','2000-03-21','gonzalesdubris@gmail.com','4269081330',(select id from LUGAR where tipo='parroquia' and nombre='San Juan'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(30720094,'Alejandra','Farias','F','2004-07-12','alejandrafarias33@gmail.com','4242195857',(select id from LUGAR where tipo='parroquia' and nombre='El Paraíso'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(27965641,'Krisdeilys','Oropeza','F','2002-04-22','krissyoropeza22@gmail.com','4241679160',(select id from LUGAR where tipo='parroquia' and nombre='La Pastora'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(27472755,'Yunaire','Ortega','F','1999-10-15','yuniortega1999@gmail.com','4141214539',(select id from LUGAR where tipo='parroquia' and nombre='San Bernardino'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24216176,'Dayana','Cordero','F','1996-05-09','dayaniscordero98@gmail.com','4242060839',(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24577571,'Klayramal','Alvarez','F','1994-06-25','klayraalvarez6@gmail.com','4128420769',(select id from LUGAR where tipo='parroquia' and nombre='La Candelaria'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(24812956,'Cindy','Morales','F','1997-01-18','cindymm2020@gmail.com','4122081446',(select id from LUGAR where tipo='parroquia' and nombre='Santa Rosalía de Palermo'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(25234284,'Lineth','Zambrano','F','1997-08-12','linethlzambrano@gmail.com','4122839144',(select id from LUGAR where tipo='parroquia' and nombre='El Valle'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(26459925,'Maria','Anton','F','1998-04-02','antomaria2021@gmail.com','4249479789',(select id from LUGAR where tipo='parroquia' and nombre='El Recreo'));
+INSERT INTO EMPLEADO(cedula_emp,nombre_emp,apellido_emp,genero_emp,fecha_nac,correo,telefono,fk_lugar) VALUES(30468132,'Adriana','Contreras','F','2004-09-07','adrianitacontreras@gmail.com','4241482458',(select id from LUGAR where tipo='parroquia' and nombre='Coche'));
 
 --CONTRATO_EMPLEADO 50 inserts
 INSERT INTO CONTRATO_EMPLEADO(fecha_ingreso,fecha_egreso,fk_emp) SELECT '2022-10-05', '2024-03-03', EMPLEADO.cedula_emp FROM EMPLEADO WHERE EMPLEADO.cedula_emp= '18485412';
@@ -419,3 +420,64 @@ INSERT INTO CATEGORIA(nombre_categoria) VALUES('Dietética');
 INSERT INTO CATEGORIA(nombre_categoria) VALUES('Cosmética');
 INSERT INTO CATEGORIA(nombre_categoria) VALUES('Infantil');
 INSERT INTO CATEGORIA(nombre_categoria) VALUES('Ortopedia');
+
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='08:00:00' and hora_salida='16:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '18485412')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='09:00:00' and hora_salida='17:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '15200135')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='10:00:00' and hora_salida='18:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '21131494')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='11:00:00' and hora_salida='19:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '29987210')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='12:00:00' and hora_salida='20:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '19335806')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='13:00:00' and hora_salida='21:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '27472755')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='14:00:00' and hora_salida='22:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '27965641')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='15:00:00' and hora_salida='23:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '30720094')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='16:00:00' and hora_salida='00:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '28180142')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='17:00:00' and hora_salida='01:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '19606815')));--
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='18:00:00' and hora_salida='02:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '25755819')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='19:00:00' and hora_salida='03:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '15040464')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='20:00:00' and hora_salida='04:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '14021832')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='21:00:00' and hora_salida='05:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '24210484')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='22:00:00' and hora_salida='06:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '21262403')));--
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='23:00:00' and hora_salida='07:00:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '28180142')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='08:30:00' and hora_salida='16:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '18364270')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='09:30:00' and hora_salida='17:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '17148667')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='10:30:00' and hora_salida='18:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '16413537')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='11:30:00' and hora_salida='19:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '16556250')));--
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='12:30:00' and hora_salida='20:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '16382963')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='13:30:00' and hora_salida='21:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '17719600')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='14:30:00' and hora_salida='22:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '16682634')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='15:30:00' and hora_salida='23:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '17641976')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='16:30:00' and hora_salida='00:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '30468132')));--
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='17:30:00' and hora_salida='01:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '15403505')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='18:30:00' and hora_salida='02:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '13636795')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='19:30:00' and hora_salida='03:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '17642304')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='20:30:00' and hora_salida='04:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '15613660')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='21:30:00' and hora_salida='05:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '17116471')));--
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='22:30:00' and hora_salida='06:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '24216176')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='23:30:00' and hora_salida='07:30:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '24577571')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='08:15:00' and hora_salida='16:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '26459925')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='09:15:00' and hora_salida='17:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '25234284')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='10:15:00' and hora_salida='18:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '24812956')));--
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='11:15:00' and hora_salida='19:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '15506254')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='12:15:00' and hora_salida='20:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '15337842')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='13:15:00' and hora_salida='21:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '19022950')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='14:15:00' and hora_salida='22:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '24723408')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='15:15:00' and hora_salida='23:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '30115310')));--
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='16:15:00' and hora_salida='00:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '16411632')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='17:15:00' and hora_salida='01:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '17977425')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='18:15:00' and hora_salida='02:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '13748084')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='19:15:00' and hora_salida='03:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '20793899')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='20:15:00' and hora_salida='04:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '15574606')));--
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='21:15:00' and hora_salida='05:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '24210444')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='22:15:00' and hora_salida='06:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '29861711')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='23:15:00' and hora_salida='07:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '29861430')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='22:15:00' and hora_salida='06:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '27741713')));
+INSERT INTO C_H(fk_horario,contrato_fk) VALUES((SELECT id_horario FROM HORARIO WHERE hora_entrada='23:15:00' and hora_salida='07:15:00'),(SELECT id_contrato FROM CONTRATO_EMPLEADO WHERE fk_emp= (SELECT cedula_emp FROM EMPLEADO WHERE cedula_emp= '28308698')));
+
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Farmacéutico titular',6);
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Farmacéutico co-titular',5.5);
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Farmacéutico regente',4.5);
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Farmacéutico sustituto',3.5);
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Farmacéutico adjunto',3);
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Auxiliar mayor diplomado',2.75);
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Auxiliar diplomado',2.5);
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Técnico en farmacia',2.25);
+INSERT INTO CARGO(nombre_cargo,sueldo_hora) VALUES('Personal auxiliar',2.15);
