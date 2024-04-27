@@ -159,3 +159,60 @@ END //
 DELIMITER ;
 
 --Reporte8
+
+DELIMITER //
+
+CREATE PROCEDURE reporte8(
+    IN anio INT,
+    IN taza_impuestos DECIMAL(10,2) 
+)
+BEGIN
+    DECLARE contador_mes INT;
+    DECLARE Ventas_totales DECIMAL(10,2);
+    DECLARE Gastos_Totales DECIMAL(10,2);
+    DECLARE Ganancia_neta DECIMAL(10,2);
+    DECLARE impuestos DECIMAL(10,2);
+
+    
+    CREATE TEMPORARY TABLE IF NOT EXISTS DataMes (
+        Mes VARCHAR(20),
+        Ventas_Totales DECIMAL(10,2),
+        Gastos_Totales DECIMAL(10,2),
+        Ganancia_neta DECIMAL(10,2),
+        impuestos DECIMAL(10,2)
+    );
+
+    
+    SET contador_mes = 1;
+    WHILE contador_mes <= 12 DO
+        
+        SELECT IFNULL(SUM(total), 0) INTO Ventas_Totales
+        FROM FACTURA
+        WHERE fecha_emision BETWEEN @start_date AND @end_date;
+
+        
+        SELECT IFNULL(SUM(sueldo), 0) INTO Gastos_Totales
+        FROM C_C
+        WHERE fecha_inicio BETWEEN @start_date AND @end_date;
+
+        
+        SET Ganancia_neta = Ventas_Totales - Gastos_Totales;
+
+        
+        SET impuestos = ROUND(Ganancia_neta * (taza_impuestos / 100));
+
+        
+        INSERT INTO DataMes ( Ventas_Totales, Gastos_Totales, Ganancia_neta, impuestos)
+        VALUES ( Ventas_Totales, Gastos_Totales, Ganancia_neta, impuestos);
+
+        SET contador_mes = contador_mes + 1;
+    END WHILE;
+
+    
+    SELECT * FROM DataMes;
+
+    
+    DROP TEMPORARY TABLE IF EXISTS DataMes;
+END //
+
+DELIMITER ;
