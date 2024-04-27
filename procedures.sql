@@ -107,6 +107,7 @@ CREATE PROCEDURE reporte6()
 BEGIN
     SELECT 
         P.id_producto, 
+        P.imagen_p,
         P.nombre_p, 
         SUM(I.cantidad_disp) AS Cantidad_En_Inventario
     FROM 

@@ -91,12 +91,6 @@ CREATE TABLE C_C(
     CONSTRAINT cc_cont_fk FOREIGN KEY(cont_fk) REFERENCES CONTRATO_EMPLEADO(id_contrato)
 );
 
-CREATE TABLE FARMACIA(
-    id_farmacia INT AUTO_INCREMENT,
-    capacidad INT NOT NULL,
-    CONSTRAINT farmacia_pk PRIMARY KEY(id_farmacia)
-);
-
 CREATE TABLE ENTRADA_SALIDA(
     id_ent_sal INT AUTO_INCREMENT,
     hora_fecha_entrada DATETIME NOT NULL,
@@ -119,10 +113,8 @@ CREATE TABLE PRODUCTO(
 CREATE TABLE INVENTARIO(
     id_inventario INT AUTO_INCREMENT,
     cantidad_disp INT NOT NULL,
-    fk_farmacia INT NOT NULL,
     producto_fk INT NOT NULL,
     CONSTRAINT inventario_pk PRIMARY KEY(id_inventario),
-    CONSTRAINT far_inv_fk FOREIGN KEY(fk_farmacia) REFERENCES FARMACIA(id_farmacia),
     CONSTRAINT pro_inv_fk FOREIGN KEY(producto_fk) REFERENCES PRODUCTO(id_producto)
 );
 
@@ -169,6 +161,7 @@ CREATE TABLE HIST_PRECIO_VENTA(
     CONSTRAINT pv_inv_fk FOREIGN KEY(fk_inv) REFERENCES INVENTARIO(id_inventario),
     CONSTRAINT td_pv_fk FOREIGN KEY(fk_hist_td) REFERENCES HIST_TASA_DOLAR(id_td)
 );
+
 --LUGAR  35 inserts
 INSERT INTO LUGAR(nombre,tipo,fk_tipo) VALUES('Venezuela','país',null);
 INSERT INTO LUGAR(nombre,tipo, fk_tipo) SELECT 'Distrito Capital', 'estado', id FROM LUGAR WHERE tipo='país' AND nombre='Venezuela';
@@ -586,3 +579,69 @@ INSERT INTO C_C (fecha_inicio, fecha_fin, sueldo, fk_cargo, cont_fk) VALUES
 ('2027-01-01', '2027-12-31', 70000, 4, 49),
 ('2027-02-01', '2027-12-31', 65000, 5, 50);
 
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(300,1);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(310,2);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(200,3);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(207,4);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(150,5);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(100,6);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(80,7);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(110,8);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(205,9);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(104,10);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(50,11);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(34,12);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(20,13);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(32,14);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(29,15);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(44,16);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(16,17);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(25,18);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(20,19);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(35,20);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(48,21);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(41,22);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(39,23);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(28,24);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(30,25);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(15,26);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(22,27);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(16,28);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(59,29);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(51,30);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(38,31);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(44,32);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(42,33);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(50,34);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(31,35);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(49,36);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(55,37);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(56,38);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(61,39);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(47,40);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(40,41);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(38,42);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(35,43);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(25,44);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(30,45);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(18,46);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(60,47);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(55,48);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(51,49);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(49,50);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(59,51);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(33,52);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(24,53);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(22,54);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(65,55);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(59,56);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(44,57);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(64,58);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(35,59);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(56,60);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(68,61);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(70,62);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(66,63);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(54,64);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(51,65);
+INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(60,66);

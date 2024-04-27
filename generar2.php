@@ -30,7 +30,7 @@ $mpdf->WriteHTML($htmlNav, 2); //HTML Content goes here.
 
 
 
-$query = "select * from producto";
+$query = "CALL reporte2()";
 $stmt = $sql->prepare($query);
 $stmt->execute();
 $rows = $stmt->fetchAll();
