@@ -240,7 +240,21 @@
                     <td id="fila">
                         Reporte #8: Reporte Financiero
                     </td>
-                    <td></td>
+                    <td>
+                        <table>
+                            <td>
+                            <select name="anoR8" id="anoR8" class="fechas">
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                            </select>
+                            </td>
+                            <td>
+                                <input type="number" id="taxR8" placeholder="%" class="fechas">
+                            </td>
+                        </table>
+                       
+                    </td>
                     <td>
                         <button class="button" onclick="popupwindow('generar8.php','popup',1000,800);" id="boton">Generar</button>
                     </td>
@@ -278,7 +292,8 @@
     }
 
     function generar8() {
-        let cat = document.getElementById('catR4').value;
-        popupwindow('generar8.php?cat=' + cat, 'popup', 1000, 800);
+        let ano = document.getElementById('anoR3').value;
+        let tax =document.getElementById('taxR8').value;
+        popupwindow('generar8.php?ano=' + ano+'&tax='+tax, 'popup', 1000, 800);
     }
 </script>
