@@ -134,12 +134,12 @@ CREATE TABLE DETALLE_FACTURA(
 
 CREATE TABLE HIST_PRECIO_VENTA(
     id_pv INT AUTO_INCREMENT,
-    valor_pv DECIMAL NOT NULL,
+    valor_pv FLOAT NOT NULL,
     fecha_inicio_pv DATE NOT NULL,
     fecha_fin_pv DATE,
     fk_inv INT,
     CONSTRAINT pv_pk PRIMARY KEY(id_pv),
-    CONSTRAINT pv_inv_fk FOREIGN KEY(fk_inv) REFERENCES INVENTARIO(id_inventario),
+    CONSTRAINT pv_inv_fk FOREIGN KEY(fk_inv) REFERENCES INVENTARIO(id_inventario)
 );
 
 --LUGAR  35 inserts
