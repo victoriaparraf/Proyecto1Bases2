@@ -185,7 +185,7 @@
                     <td>
                         <select name="catR4" id="catR4" class="categorias">
                             <option value="Medicamento">Medicamento</option>
-                            <option value="uidado Personal">Cuidado Personal</option>
+                            <option value="Cuidado Personal">Cuidado Personal</option>
                             <option value="Suplementos y Vitaminas">Suplementos y Vitaminas</option>
                             <option value="Equipos y Dispositivos Médicos">Equipos y Dispositivos Médicos</option>
                             <option value="Botiquín">Botiquín</option>
@@ -212,7 +212,7 @@
                 <tr class="espacio"></tr>
                 <tr class="linea">
                     <td id="fila">
-                        Reporte #6: Top 10 productos menos vendidos
+                        Reporte #6: Producto menos vendido de cada categoria
                     </td>
                     <td></td>
                     <td>

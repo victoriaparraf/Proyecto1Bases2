@@ -54,6 +54,7 @@ CREATE TABLE HORARIO(
     id_horario INT AUTO_INCREMENT,
     hora_entrada TIME NOT NULL,
     hora_salida TIME NOT NULL,
+    dia_semana VARCHAR(10) NOT NULL,
     CONSTRAINT horario_pk PRIMARY KEY(id_horario)
 );
 
@@ -93,12 +94,13 @@ CREATE TABLE C_C(
 
 CREATE TABLE ENTRADA_SALIDA(
     id_ent_sal INT AUTO_INCREMENT,
-    hora_fecha_entrada DATETIME NOT NULL,
-    hora_fecha_salida DATETIME,
+    hora_entrada DATETIME  NOT NULL,
+    hora_salida DATETIME,
     fk_contrato INT NOT NULL,
+    semana_dia VARCHAR(10) NOT NULL,
     CONSTRAINT ent_sal_pk PRIMARY KEY(id_ent_sal),
     CONSTRAINT esc_fk FOREIGN KEY(fk_contrato) REFERENCES CONTRATO_EMPLEADO(id_contrato)
-);
+); 
 
 CREATE TABLE PRODUCTO(
     id_producto INT AUTO_INCREMENT,
@@ -130,36 +132,14 @@ CREATE TABLE DETALLE_FACTURA(
     CONSTRAINT detfact_inv_fk FOREIGN KEY(fk_inventario) REFERENCES INVENTARIO(id_inventario)
 );
 
-CREATE TABLE HIST_PRECIO_COMPRA(
-    id_pc INT AUTO_INCREMENT,
-    valor_pc DECIMAL NOT NULL,
-    fecha_inicio_pc DATE NOT NULL,
-    fecha_fin_pc DATE,
-    fk_producto INT,
-    CONSTRAINT pc_pk PRIMARY KEY(id_pc),
-    CONSTRAINT pc_pro_fk FOREIGN KEY(fk_producto) REFERENCES PRODUCTO(id_producto)
-);
-
-CREATE TABLE HIST_TASA_DOLAR(
-    id_td INT AUTO_INCREMENT,
-    valor_td DECIMAL NOT NULL,
-    fecha_inicio_td DATE NOT NULL,
-    fecha_fin_td DATE,
-    fk_hist_pc INT,
-    CONSTRAINT td_pk PRIMARY KEY(id_td),
-    CONSTRAINT td_pc_fk FOREIGN KEY(fk_hist_pc) REFERENCES HIST_PRECIO_COMPRA(id_pc)
-);
-
 CREATE TABLE HIST_PRECIO_VENTA(
     id_pv INT AUTO_INCREMENT,
     valor_pv DECIMAL NOT NULL,
     fecha_inicio_pv DATE NOT NULL,
     fecha_fin_pv DATE,
     fk_inv INT,
-    fk_hist_td INT,
     CONSTRAINT pv_pk PRIMARY KEY(id_pv),
     CONSTRAINT pv_inv_fk FOREIGN KEY(fk_inv) REFERENCES INVENTARIO(id_inventario),
-    CONSTRAINT td_pv_fk FOREIGN KEY(fk_hist_td) REFERENCES HIST_TASA_DOLAR(id_td)
 );
 
 --LUGAR  35 inserts
@@ -355,54 +335,54 @@ INSERT INTO CONTRATO_EMPLEADO(fecha_ingreso,fecha_egreso,fk_emp) SELECT '2022-2-
 INSERT INTO CONTRATO_EMPLEADO(fecha_ingreso,fecha_egreso,fk_emp) SELECT '2024-1-18',null,EMPLEADO.cedula_emp from EMPLEADO where EMPLEADO.cedula_emp='27741713';
 INSERT INTO CONTRATO_EMPLEADO(fecha_ingreso,fecha_egreso,fk_emp) SELECT '2022-9-14',null,EMPLEADO.cedula_emp from EMPLEADO where EMPLEADO.cedula_emp='28308698';
 
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('08:00:00', '16:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('09:00:00', '17:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('10:00:00', '18:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('11:00:00', '19:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('12:00:00', '20:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('13:00:00', '21:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('14:00:00', '22:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('15:00:00', '23:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('16:00:00', '00:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('17:00:00', '01:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('18:00:00', '02:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('19:00:00', '03:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('20:00:00', '04:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('21:00:00', '05:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('22:00:00', '06:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('23:00:00', '07:00:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('08:30:00', '16:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('09:30:00', '17:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('10:30:00', '18:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('11:30:00', '19:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('12:30:00', '20:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('13:30:00', '21:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('14:30:00', '22:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('15:30:00', '23:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('16:30:00', '00:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('17:30:00', '01:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('18:30:00', '02:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('19:30:00', '03:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('20:30:00', '04:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('21:30:00', '05:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('22:30:00', '06:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('23:30:00', '07:30:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('08:15:00', '16:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('09:15:00', '17:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('10:15:00', '18:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('11:15:00', '19:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('12:15:00', '20:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('13:15:00', '21:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('14:15:00', '22:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('15:15:00', '23:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('16:15:00', '00:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('17:15:00', '01:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('18:15:00', '02:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('19:15:00', '03:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('20:15:00', '04:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('21:15:00', '05:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('22:15:00', '06:15:00');
-INSERT INTO HORARIO (hora_entrada, hora_salida) VALUES ('23:15:00', '07:15:00');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('08:00:00', '16:00:00','LUNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('09:00:00', '17:00:00','MARTES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('10:00:00', '18:00:00','MIÉRCOLES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('11:00:00', '19:00:00','JUEVES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('12:00:00', '20:00:00','VIERNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('13:00:00', '21:00:00','SÁBADO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('14:00:00', '22:00:00','DOMINGO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('15:00:00', '23:00:00','LUNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('16:00:00', '00:00:00','MARTES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('17:00:00', '01:00:00','JUEVES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('18:00:00', '02:00:00','VIERNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('19:00:00', '03:00:00','SÁBADO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('20:00:00', '04:00:00','DOMINGO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('21:00:00', '05:00:00','DOMINGO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('22:00:00', '06:00:00','LUNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('23:00:00', '07:00:00','MARTES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('08:30:00', '16:30:00','MIÉRCOLES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('09:30:00', '17:30:00','JUEVES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('10:30:00', '18:30:00','VIERNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('11:30:00', '19:30:00','SÁBADO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('12:30:00', '20:30:00','DOMINGO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('13:30:00', '21:30:00','LUNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('14:30:00', '22:30:00','MARTES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('15:30:00', '23:30:00','MIÉRCOLES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('16:30:00', '00:30:00','JUEVES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('17:30:00', '01:30:00','JUEVES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('18:30:00', '02:30:00','VIERNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('19:30:00', '03:30:00','SÁBADO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('20:30:00', '04:30:00','LUNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('21:30:00', '05:30:00','MARTES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('22:30:00', '06:30:00','MIÉRCOLES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('23:30:00', '07:30:00','JUEVES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('08:15:00', '16:15:00','VIERNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('09:15:00', '17:15:00','SÁBADO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('10:15:00', '18:15:00','LUNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('11:15:00', '19:15:00','MARTES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('12:15:00', '20:15:00','MIÉRCOLES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('13:15:00', '21:15:00','JUEVES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('14:15:00', '22:15:00','VIERNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('15:15:00', '23:15:00','VIERNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('16:15:00', '00:15:00','LUNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('17:15:00', '01:15:00','MARTES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('18:15:00', '02:15:00','MIÉRCOLES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('19:15:00', '03:15:00','JUEVES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('20:15:00', '04:15:00','VIERNES');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('21:15:00', '05:15:00','SÁBADO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('22:15:00', '06:15:00','DOMINGO');
+INSERT INTO HORARIO (hora_entrada, hora_salida,dia_semana) VALUES ('23:15:00', '07:15:00','LUNES');
 
 INSERT INTO CATEGORIA(nombre_categoria) VALUES('Medicamento');
 INSERT INTO CATEGORIA(nombre_categoria) VALUES('Cuidado personal');
@@ -645,3 +625,221 @@ INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(66,63);
 INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(54,64);
 INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(51,65);
 INSERT INTO INVENTARIO(cantidad_disp,producto_fk) VALUES(60,66);
+
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-01-01',5.12,9950001,13636795);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-10-14',3.86,9987456,13748084);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-12-10',6.98,10234567,14021832);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-02-09',3.76,10234576,15040464);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-21',2.51,11000011,15200135);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-06-17',13.5,11000022,15337842);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-07-24',2.90,11123456,15403505);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-05-25',1.59,11345422,15506254);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-01-08',2.62,11614418,15574606);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-01-11',3.60,12045678,16382963);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-06-29',4.60,12045689,16411632);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-05-18',4.52,12054756,16413537);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-03-15',11.26,12308554,15613660);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-09-01',9.58,12430454,16556250);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-11-20',5.94,12717345,17116471);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-07-19',3.28,12845689,16682634);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-02-06',2.12,13098765,17148667);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-04-10',11.15,13098776,17116471);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-08-14',1.36,13208665,17641976);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-04-22',8.16,13598776,17719600);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-04-02',5.49,13655448,17642304);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-07-03',6.48,14012345,17977425);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-12-15',6.55,14012356,18485412);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-11-24',45.43,14122888,18364270);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-01-31',0.33,14712356,19022950);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-06-12',0.52,14783565,19335806);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-11-11',0.44,15098765,20793899);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-02-13',0.70,15477443,21131494);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-03-28',8.87,15498765,19606815);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-01-07',1.39,15547986,21262403);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-09-23',1.41,15661510,24210484);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-08-02',3.80,16019296,24210444);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-04-19',0.40,16078901,24216176);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-08-10',2.72,16078912,24577571);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-06-20',2.43,16234576,24723408);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-03-30',4.15,16336685,24812956);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-01',5.91,16578912,25234284);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-10-21',7.05,16602898,25755819);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-11-19',12.44,16887503,27472755);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-09-15',7.55,17045678,26459925);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-03-11',7.30,17045689,26647943);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-03-24',1.73,17345689,27965641);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-05-12',13.87,17559952,28180142);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-03-22',6.85,17747963,28308698);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-04',1.75,18012345,27741713);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-07-23',2.07,18012356,29861711);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-08-17',1.77,18039766,29987210);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-05-29',12.57,18268829,30468132);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-10',6.48,18812356,30115310);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-04-08',3.61,19078654,30720094);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-03-11',17.05,19078665,26647943);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-03-24',5.28,19467056,27965641);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-05-12',5.03,19756181,28180142);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-03-22',19.31,19811166,28308698);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-04',6.61,19898647,27741713);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-07-23',8.35,19978665,29861711);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-08-17',2.05,20014567,29987210);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-05-29',2.84,20014576,30468132);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-10',3.74,20035886,30115310);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-04-08',6.98,20199358,30720094);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-09-23',3.18,21034567,24210484);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-08-02',6.22,21034576,24210444);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-04-19',5.36,21134576,24216176);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-08-10',4.56,21213344,24577571);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-06-20',10.50,21429485,24723408);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-03-30',2.72,21464913,24812956);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-01',3.31,21811424,25234284);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-10-21',2.30,22012356,25755819);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-11-19',6.6,22438566,27472755);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-09-15',7.67,22568992,26459925);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-03-30',2.62,22712356,24812956);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-01',0.44,22743594,25234284);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-10-21',2.85,23169584,25755819);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-11-19',1.39,23523278,27472755);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-09-15',10.50,23600805,26459925);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-07-23',0.44,23645689,29861711);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-08-17',2.26,23998704,29987210);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-05-29',0.40,24041353,30468132);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-10',6.55,24112356,30115310);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-04-08',4.60,24249675,30720094);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-08-17',45.43,24669548,29987210);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-05-29',3.85,24914817,30468132);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-10',13.10,24940795,30115310);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-04-08',5.12,25000134,30720094);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-03-30',11.15,25014576,24812956);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-01',12.44,25067890,25234284);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-10-21',3.28,25067891,25755819);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-11-19',2.51,25070134,27472755);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-01',2.78,25212454,25234284);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-10-21',1.92,25603881,25755819);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-11-19',6.55,26002353,27472755);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2022-08-17',3.28,26018341,29987210);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-05-29',1.73,26034567,30468132);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-10',2.78,26034576,30115310);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-05-29',15.75,26405290,30468132);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-10',3.80,26563720,30115310);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-01',0.44,26581858,25234284);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2023-10-21',6.98,26674883,25755819);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-01',3.86,27012345,25234284);
+INSERT INTO FACTURA(fecha_emision,total,cliente_fk,fk_empleado) VALUES('2024-02-01',2.05,27012356,25234284);
+
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,10,2.20,1,2);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,15,3.69,1,1);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,3.86,2,3);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,6.98,3,5);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,3.76,4,4);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.51,5,6);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,6.76,6,7);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.45,7,8);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.59,8,9);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.31,9,10);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.80,10,11);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,2.30,11,12);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.26,12,13);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.64,13,14);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.64,13,14);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,3.35,13,15);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,5.27,13,16);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.99,14,17);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,10,7.32,14,18);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,5.94,15,19);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.64,16,20);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,30,1.64,17,21);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,11.15,18,22);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.36,19,23);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,8.16,20,24);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,5.49,21,25);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.48,22,26);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.55,23,27);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,45.43,24,28);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(3,0,0.11,25,29);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(4,0,0.13,26,30);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,0.44,27,31);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,0.70,28,33);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,8.87,29,32);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.39,30,34);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.41,31,35);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.90,32,36);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(4,0,0.10,33,37);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.36,34,38);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.43,35,39);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,4.15,36,40);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,5.91,37,41);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,7.05,38,42);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,6.22,39,43);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,7.55,40,44);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,3.65,41,45);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.73,42,46);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,3.01,43,47);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,7.85,43,48);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.85,44,49);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.08,44,50);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.92,44,51);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.75,45,52);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,15,2.44,46,53);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.77,47,54);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,12.57,48,55);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,20,4.05,49,56);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,3.61,50,57);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,5.25,51,58);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.55,51,59);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,5.28,52,60);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,5.03,53,62);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,19.31,54,63);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.61,55,64);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,8.35,56,61);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.05,57,65);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.84,58,66);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,15,2.20,59,2);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.98,60,5);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(3,30,1.51,61,21);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.22,62,43);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.36,63,38);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.08,63,50);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.92,63,51);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,2.26,64,13);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,5.25,65,58);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.36,66,23);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,10,3.69,67,1);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.30,68,12);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,10,7.32,69,18);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,15,2.20,70,2);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,30,1.51,70,21);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,0.70,70,33);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.99,70,17);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.31,71,10);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,0.44,72,31);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.85,73,49);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.39,74,34);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,5.25,75,58);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,0.44,76,31);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.26,77,13);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(4,0,0.10,78,37);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.55,79,59);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,2.30,80,12);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,45.43,81,28);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.08,82,50);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.77,82,54);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,6.55,83,59);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,10,2.20,84,2);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,15,3.69,84,1);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,11.15,85,22);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,6.22,86,43);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.64,87,20);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.51,88,6);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.39,89,34);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.92,90,51);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.55,91,27);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.64,92,20);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,1.73,93,46);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.39,94,34);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(3,0,5.25,95,58);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(2,0,1.90,96,36);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,0.44,97,31);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,6.98,98,5);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,3.86,99,3);
+INSERT INTO DETALLE_FACTURA(cantidad_prod,descuento,precio_unitario,fk_factura,fk_inventario) VALUES(1,0,2.05,100,65);

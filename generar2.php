@@ -18,7 +18,7 @@ $htmlNav = '<nav>
             <th scope="col">#</th>
             <th scope="col">Foto</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Cantidad</th>
+            <th scope="col">Cantidad Vendida</th>
           </tr>
         </thead>
         <tbody>
