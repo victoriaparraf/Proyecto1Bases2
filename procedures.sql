@@ -191,12 +191,13 @@ CREATE PROCEDURE reporte8(
     IN taza_impuestos DECIMAL(10,2) 
 )
 BEGIN
-    DECLARE contador_mes INT;
+    DECLARE contador_mes INT DEFAULT 1;
     DECLARE Ventas_totales DECIMAL(10,2);
     DECLARE Gastos_Totales DECIMAL(10,2);
     DECLARE Ganancia_neta DECIMAL(10,2);
     DECLARE impuestos DECIMAL(10,2);
-
+    DECLARE start_date DATE;
+    DECLARE end_date DATE;
     
     CREATE TEMPORARY TABLE IF NOT EXISTS DataMes (
         Mes VARCHAR(20),
@@ -206,36 +207,29 @@ BEGIN
         impuestos DECIMAL(10,2)
     );
 
-    
-    SET contador_mes = 1;
     WHILE contador_mes <= 12 DO
+        -- Calculate start_date and end_date for each month
+        SET start_date = STR_TO_DATE(CONCAT(anio, '-', contador_mes, '-01'), '%Y-%m-%d');
+        SET end_date = LAST_DAY(start_date);
         
         SELECT IFNULL(SUM(total), 0) INTO Ventas_Totales
         FROM FACTURA
-        WHERE fecha_emision BETWEEN @start_date AND @end_date;
+        WHERE YEAR(fecha_emision) = anio AND MONTH(fecha_emision) = contador_mes;
 
-        
         SELECT IFNULL(SUM(sueldo), 0) INTO Gastos_Totales
         FROM C_C
-        WHERE fecha_inicio BETWEEN @start_date AND @end_date;
+        WHERE YEAR(fecha_inicio) = anio AND MONTH(fecha_inicio) = contador_mes;
 
-        
         SET Ganancia_neta = Ventas_Totales - Gastos_Totales;
+        SET impuestos = ROUND(Ganancia_neta * (taza_impuestos / 100), 2);
 
-        
-        SET impuestos = ROUND(Ganancia_neta * (taza_impuestos / 100));
-
-        
-        INSERT INTO DataMes ( Ventas_Totales, Gastos_Totales, Ganancia_neta, impuestos)
-        VALUES ( Ventas_Totales, Gastos_Totales, Ganancia_neta, impuestos);
+        INSERT INTO DataMes (Mes, Ventas_Totales, Gastos_Totales, Ganancia_neta, impuestos)
+        VALUES (DATE_FORMAT(start_date, '%M %Y'), Ventas_Totales, Gastos_Totales, Ganancia_neta, impuestos);
 
         SET contador_mes = contador_mes + 1;
     END WHILE;
 
-    
     SELECT * FROM DataMes;
-
-    
     DROP TEMPORARY TABLE IF EXISTS DataMes;
 END //
 
@@ -286,7 +280,7 @@ BEGIN
 
         UPDATE FACTURA SET total = total  WHERE id_factura = factura_id; 
         SET total = 0;
-        SET date_emision = DATE_ADD(current_date, INTERVAL 1 DAY);
+        SET date_emision = DATE_ADD(date_emision, INTERVAL 1 DAY);
         SET counter = counter + 1;
 
     END WHILE;
