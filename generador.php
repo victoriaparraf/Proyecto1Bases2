@@ -256,7 +256,7 @@
                        
                     </td>
                     <td>
-                        <button class="button" onclick="popupwindow('generar8.php','popup',1000,800);" id="boton">Generar</button>
+                        <button class="button" onclick="generar8()" id="boton">Generar</button>
                     </td>
                 </tr>
             </tbody>

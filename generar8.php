@@ -3,16 +3,15 @@ include "db.php";
 require __DIR__ . '/vendor/autoload.php';
 
 $mpdf = new \Mpdf\Mpdf();
-if(isset($_GET)){
-    $ano = $_GET['ano'];
-    $tax = $_GET['tax'];
-}
+$ano = $_GET['ano'];
+$tax = $_GET['tax'];
+
 $query = "CALL reporte8(".$ano.",".$tax.")";
 $stmt = $sql->prepare($query);
 $stmt->execute();
 $rows = $stmt->fetchAll();
 $i = 0;
-$total=0;
+$total = 0;
 $consulta = '';
 $meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 foreach ($rows as $row) {
@@ -29,11 +28,13 @@ foreach ($rows as $row) {
   $i++;
   $total= $total+ $row['Ganancia_neta']-$row['impuestos'];
 }
-
+$logo = file_get_contents('Assets/logo.jpg');
 $html = '<nav>
-<img src="Assets/logo.png" width="170" height="90" style="margin: 2% 30% 2% 2%">
-<h4 style="text-align: center;"> Reporte #1</h4>
-<h5 style="text-align: center;"> Nombre de superhéroe o supervillano que poseen poderes artificiales y que han sido líderes </h5>
+<img src="data:image/jpg;base64,' . base64_encode($logo) . '" width="90" height="90" style="margin: 2% 30% 2% 2%">
+<h4 style="text-align: center;"> Reporte #8</h4>
+<h5 style="text-align: center;"> Reporte Financiero  </h5>
+<h5> Año: '.$ano.'</h5>
+<h5> Porcentaje Taxes: '.$tax.'%</h5>
 </nav>
 <body>
 <div style="margin: 3%">
