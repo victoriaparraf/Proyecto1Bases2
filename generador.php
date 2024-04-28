@@ -184,15 +184,15 @@
                     </td>
                     <td>
                         <select name="catR4" id="catR4" class="categorias">
-                            <option value="1">Medicamento</option>
-                            <option value="2">Cuidado Personal</option>
-                            <option value="3">Suplementos y Vitaminas</option>
-                            <option value="4">Equipos y Dispositivos Médicos</option>
-                            <option value="5">Botiquín</option>
-                            <option value="6">Dietética</option>
-                            <option value="7">Cosmética</option>
-                            <option value="8">Infantil</option>
-                            <option value="9">Ortopedia</option>
+                            <option value="Medicamento">Medicamento</option>
+                            <option value="uidado Personal">Cuidado Personal</option>
+                            <option value="Suplementos y Vitaminas">Suplementos y Vitaminas</option>
+                            <option value="Equipos y Dispositivos Médicos">Equipos y Dispositivos Médicos</option>
+                            <option value="Botiquín">Botiquín</option>
+                            <option value="Dietética">Dietética</option>
+                            <option value="Cosmética">Cosmética</option>
+                            <option value="Infantil">Infantil</option>
+                            <option value="Ortopedia">Ortopedia</option>
                         </select>
                     </td>
                     <td>
@@ -202,7 +202,7 @@
                 <tr class="espacio"></tr>
                 <tr class="linea">
                     <td id="fila">
-                        Reporte #5: Empleados actuales ordenados por sueldo
+                        Reporte #5: Empleados actuales ordenados por cantidad de productos vendidos
                     </td>
                     <td></td>
                     <td>
@@ -212,7 +212,7 @@
                 <tr class="espacio"></tr>
                 <tr class="linea">
                     <td id="fila">
-                        Reporte #6: Lista de productos ordenados por cantidad de productos en inventario
+                        Reporte #6: Top 10 productos menos vendidos
                     </td>
                     <td></td>
                     <td>
@@ -232,7 +232,7 @@
                         </select>
                     </td>
                     <td>
-                        <button class="button" onclick="popupwindow('generar7.php','popup',1000,800);" id="boton">Generar</button>
+                        <button class="button" onclick="generar7()" id="boton">Generar</button>
                     </td>
                 </tr>
                 <tr class="espacio"></tr>
@@ -287,8 +287,8 @@
     }
 
     function generar7() {
-        let cat = document.getElementById('catR4').value;
-        popupwindow('generar7.php?cat=' + cat, 'popup', 1000, 800);
+        let ano = document.getElementById('anoR7').value;
+        popupwindow('generar7.php?ano=' + ano, 'popup', 1000, 800);
     }
 
     function generar8() {

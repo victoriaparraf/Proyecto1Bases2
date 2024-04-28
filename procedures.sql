@@ -18,14 +18,26 @@ DELIMITER //
 
 CREATE PROCEDURE reporte2()
 BEGIN
-		SELECT P.id_producto, P.nombre_p, SUM(V.cantidad) AS Cantidad_Vendida
-		FROM PRODUCTO P
-		JOIN VENTAS V ON P.id_producto = V.producto_fk
-		GROUP BY P.id_producto
-		ORDER BY Cantidad_Vendida DESC;
-END //
+    SELECT 
+        P.id_producto, 
+        P.imagen_p,
+        P.nombre_p, 
+        SUM(DF.cantidad_prod) AS Cantidad
+    FROM 
+        PRODUCTO P
+    JOIN 
+        INVENTARIO I ON P.id_producto = I.producto_fk
+    JOIN 
+        HIST_PRECIO_VENTA PV ON I.id_inventario = PV.fk_inv
+    JOIN 
+        DETALLE_FACTURA DF ON I.id_inventario = DF.fk_inventario
+    GROUP BY 
+        P.id_producto, P.nombre_p, P.imagen_p
+    ORDER BY 
+        Cantidad DESC;
+END//
 
-DELIMITER ;
+DELIMITER;
 
 --Reporte3
 DELIMITER //
@@ -85,20 +97,24 @@ BEGIN
         E.cedula_emp, 
         E.nombre_emp, 
         E.apellido_emp, 
-        C.sueldo_hora
+        COUNT(DF.cantidad_prod) AS cantidad_vendida
     FROM 
         EMPLEADO E
     JOIN 
         C_C CC ON E.cedula_emp = CC.cont_fk
     JOIN 
         CARGO C ON CC.fk_cargo = C.id_cargo
+    JOIN  
+        FACTURA F ON E.cedula_emp = F.fk_empleado
+    JOIN
+        DETALLE_FACTURA DF ON F.id_factura = DF.fk_factura
     WHERE 
         CC.fecha_fin IS NULL
     ORDER BY 
-        C.sueldo_hora DESC;
-END //
+        cantidad_vendida DESC;
+END//
 
-DELIMITER ;
+DELIMITER;
 
 --Reporte6
 DELIMITER //
@@ -109,18 +125,25 @@ BEGIN
         P.id_producto, 
         P.imagen_p,
         P.nombre_p, 
-        SUM(I.cantidad_disp) AS Cantidad_En_Inventario
+        C.nombre_categoria,
+        SUM(DF.cantidad_prod) AS Cantidad
     FROM 
         PRODUCTO P
     JOIN 
+        CATEGORIA C ON P.fk_categoria = C.id_categoria
+    JOIN 
         INVENTARIO I ON P.id_producto = I.producto_fk
+    JOIN 
+        HIST_PRECIO_VENTA PV ON I.id_inventario = PV.fk_inv
+    JOIN 
+        DETALLE_FACTURA DF ON I.id_inventario = DF.fk_inventario
     GROUP BY 
-        P.id_producto, P.nombre_p
+        P.id_producto, P.nombre_p, P.imagen_p,C.nombre_categoria
     ORDER BY 
-        Cantidad_En_Inventario DESC;
-END //
+        Cantidad ASC;
+END//
 
-DELIMITER ;
+DELIMITER;
 
 --Reporte7
 DELIMITER //

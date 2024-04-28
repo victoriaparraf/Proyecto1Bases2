@@ -8,7 +8,7 @@ $logo = file_get_contents('Assets/logo.jpg');
 $htmlNav = '<nav>
 <img src="data:image/jpg;base64,' . base64_encode($logo) . '" width="90" height="90" style="margin: 2% 30% 2% 2%">
 <h4 style="text-align: center;"> Reporte #5</h4>
-<h5 style="text-align: center;"> Empleados actuales ordenados por sueldo</h5>
+<h5 style="text-align: center;"> Empleados actuales ordenados por cantidad de productos vendidos</h5>
 </nav>
 <body>
 <div style="margin: 3%">
@@ -16,9 +16,10 @@ $htmlNav = '<nav>
         <thead>
           <tr>
             <th scope="col" style="vertical-align: middle;">#</th>
-            <th scope="col" style="vertical-align: middle;">Foto</th>
+            <th scope="col" style="vertical-align: middle;">Cedula</th>
             <th scope="col" style="vertical-align: middle;">Nombre</th>
-            <th scope="col" style="vertical-align: middle;">Cantidad Disponible</th>
+            <th scope="col" style="vertical-align: middle;">Apellido</th>
+            <th scope="col" style="vertical-align: middle;">Cantidad Vendida</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +31,7 @@ $mpdf->WriteHTML($htmlNav, 2); //HTML Content goes here.
 
 
 
-$query = "CALL reporte6()";
+$query = "CALL reporte5()";
 $stmt = $sql->prepare($query);
 $stmt->execute();
 $rows = $stmt->fetchAll();
@@ -40,9 +41,10 @@ foreach ($rows as $row) {
   $consulta ='
     <tr>
         <th scope="row" style="vertical-align: middle;">' . $i . '</th>
-        <td style="vertical-align: middle;"><img src="data:image/jpeg;base64,' . base64_encode($row['imagen_p']) . '" width="45px" height="45px"></td>
-        <td style="vertical-align: middle;">' . $row['nombre_p'] . '</td>
-        <td style="vertical-align: middle;">' . $row['Cantidad_En_Inventario'] . '</td>
+        <td style="vertical-align: middle;">' . $row['cedula_emp'] . '</td>
+        <td style="vertical-align: middle;">' . $row['nombre_emp'] . '</td>
+        <td style="vertical-align: middle;">' . $row['apellido_emp'] . '</td>
+        <td style="vertical-align: middle;">' . $row['cantidad_vendida'] . '</td>
     </tr>
     ';
     $mpdf->WriteHTML($consulta, 2);

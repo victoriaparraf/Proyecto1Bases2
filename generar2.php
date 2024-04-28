@@ -18,7 +18,7 @@ $htmlNav = '<nav>
             <th scope="col">#</th>
             <th scope="col">Foto</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Cantidad</th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +42,7 @@ foreach ($rows as $row) {
         <th scope="row" style="vertical-align: middle;">' . $i . '</th>
         <td style="vertical-align: middle;"><img src="data:image/jpeg;base64,' . base64_encode($row['imagen_p']) . '" width="45px" height="45px"></td>
         <td style="vertical-align: middle;">' . $row['nombre_p'] . '</td>
-        <td style="vertical-align: middle;">' . $row['descripcion_p'] . '</td>
+        <td style="vertical-align: middle;">' . $row['Cantidad'] . '</td>
     </tr>
     ';
     $mpdf->WriteHTML($consulta, 2);
