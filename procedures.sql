@@ -4,14 +4,15 @@ DELIMITER //
 
 CREATE PROCEDURE reporte1()
 BEGIN
-    SELECT E.cedula_emp, E.nombre_emp, E.apellido_emp, SUM(TIMESTAMPDIFF(HOUR, ES.hora_fecha_entrada, ES.hora_fecha_salida)) AS Horas_Trabajadas
+    SELECT E.cedula_emp, E.nombre_emp, E.apellido_emp, SUM(TIMESTAMPDIFF(HOUR, ES.hora_entrada, ES.hora_salida)) AS Horas_Trabajadas
     FROM EMPLEADO E
-    JOIN ENTRADA_SALIDA ES ON E.cedula_emp = ES.fk_contrato
+    JOIN CONTRATO_EMPLEADO CE ON E.cedula_emp = CE.fk_emp
+    JOIN ENTRADA_SALIDA ES ON CE.id_contrato = ES.fk_contrato
     GROUP BY E.cedula_emp
     ORDER BY Horas_Trabajadas DESC;
-END //
+END//
 
-DELIMITER ;
+DELIMITER;
 
 --Reporte2
 DELIMITER //
@@ -48,20 +49,19 @@ BEGIN
         E.cedula_emp, 
         E.nombre_emp, 
         E.apellido_emp, 
-        SUM(TIMESTAMPDIFF(HOUR, ES.hora_fecha_entrada, ES.hora_fecha_salida)) AS Horas_Trabajadas
-    FROM 
-        EMPLEADO E
-    JOIN 
-        ENTRADA_SALIDA ES ON E.cedula_emp = ES.fk_contrato
+        SUM(TIMESTAMPDIFF(HOUR, ES.hora_entrada, ES.hora_salida)) AS Horas_Trabajadas
+    FROM EMPLEADO E
+    JOIN contrato_empleado CE ON E.cedula_emp = CE.fk_emp
+    JOIN ENTRADA_SALIDA ES ON CE.id_contrato = ES.fk_contrato
     WHERE 
-        YEAR(ES.hora_fecha_entrada) = ano AND MONTH(ES.hora_fecha_entrada) = mes
+        YEAR(ES.hora_entrada) = ano AND MONTH(ES.hora_entrada) = mes
     GROUP BY 
         E.cedula_emp
     ORDER BY 
         Horas_Trabajadas DESC;
-END //
+END//
 
-DELIMITER ;
+DELIMITER;
 
 --Reporte4
 DELIMITER //
@@ -240,3 +240,56 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+--generar facturas
+DELIMITER //
+
+CREATE PROCEDURE InsertDetalleFactura()
+BEGIN
+    DECLARE counter INT DEFAULT 1;
+    DECLARE factura_count INT DEFAULT 0;
+    DECLARE fk_inventario INT;
+    DECLARE factura_id INT;
+    DECLARE date_emision DATE;
+    DECLARE total FLOAT;
+    DECLARE cantidad INT;
+    DECLARE pu FLOAT;
+
+    SET date_emision = '2021-01-01';
+
+    WHILE counter < 1195 DO
+    INSERT INTO FACTURA (fecha_emision,total,cliente_fk,fk_empleado)
+    VALUES (date_emision,0,(SELECT cedula_cli FROM CLIENTE ORDER BY RAND() LIMIT 1),(SELECT cedula_emp EMP FROM EMPLEADO ORDER BY RAND() LIMIT 1));
+
+        SET factura_id = LAST_INSERT_ID();
+        SET factura_count = 0;
+        SET total = 0;
+        WHILE factura_count < 4 DO
+
+            SET cantidad = FLOOR(1 + RAND() * 10);
+            SET fk_inventario = FLOOR(1 + RAND() * 66);
+            SET pu = (SELECT valor_pv FROM hist_precio_venta WHERE fk_inv = fk_inventario AND fecha_fin_pv IS NULL);
+            SET total = total + pu*cantidad;
+
+            INSERT INTO DETALLE_FACTURA (cantidad_prod, precio_unitario, descuento, fk_factura, fk_inventario)
+            SELECT 
+                 cantidad as cantidad_prod, 
+                pu as precio_unitario,
+                0 as descuento,
+                factura_id as fk_factura,
+                fk_inventario as fk_inventario;
+                
+            SET factura_count = factura_count + 1;
+            
+        END WHILE;
+
+        UPDATE FACTURA SET total = total  WHERE id_factura = factura_id; 
+        SET total = 0;
+        SET date_emision = DATE_ADD(current_date, INTERVAL 1 DAY);
+        SET counter = counter + 1;
+
+    END WHILE;
+END//
+
+DELIMITER;
